@@ -26,31 +26,31 @@ csv_url = "https://raw.githubusercontent.com/gskarp/greek-songs/main/greece-song
 df = pd.read_csv(csv_url, sep=";", encoding="utf-8-sig")
 
 # Convert year column to numeric format
-df['Χρόνος'] = pd.to_numeric(df['Ετος κυκλοφ..1'], errors='coerce')
-df = df.dropna(subset=['Χρόνος'])
-df['Χρόνος'] = df['Χρόνος'].astype(int)
+df['Year'] = pd.to_numeric(df['Publication_Year'], errors='coerce')
+df = df.dropna(subset=['Year'])
+df['Year'] = df['Year'].astype(int)
 
 # Sidebar Filters
 st.sidebar.title("Network Filters")
-decades = sorted(set(df['Χρόνος'] // 10 * 10))
+decades = sorted(set(df['Year'] // 10 * 10))
 decade = st.sidebar.selectbox("Select a Decade", options=decades)
-date_range = st.sidebar.slider("Select Year Range", int(df['Χρόνος'].min()), int(df['Χρόνος'].max()), (int(df['Χρόνος'].min()), int(df['Χρόνος'].max())))
+date_range = st.sidebar.slider("Select Year Range", int(df['Year'].min()), int(df['Year'].max()), (int(df['Year'].min()), int(df['Year'].max())))
 
 # Songs per Year (Bottom Graph)
-yearly_counts = df.groupby("Χρόνος").size().reset_index(name="Number of Songs")
+yearly_counts = df.groupby("Year").size().reset_index(name="Number of Songs")
 fig = go.Figure()
-fig.add_trace(go.Bar(x=yearly_counts["Χρόνος"], y=yearly_counts["Number of Songs"], name="Bar", marker_color='orange'))
-fig.add_trace(go.Scatter(x=yearly_counts["Χρόνος"], y=yearly_counts["Number of Songs"], mode='lines+markers', name="Line", line=dict(color='orange')))
+fig.add_trace(go.Bar(x=yearly_counts["Year"], y=yearly_counts["Number of Songs"], name="Bar", marker_color='orange'))
+fig.add_trace(go.Scatter(x=yearly_counts["Year"], y=yearly_counts["Number of Songs"], mode='lines+markers', name="Line", line=dict(color='orange')))
 fig.update_layout(title="Number of Songs per Year", xaxis_title="Year", yaxis_title="Number of Songs", hovermode="x")
 st.plotly_chart(fig)
 
 # Top 20 People Graph (Top Left)
 role_selection = st.selectbox("Select Role", ["Composers", "Lyricists", "Singers", "People"])
-role_map = {"Composers": "Συνθέτης", "Lyricists": "Στιχουργός", "Singers": "Τραγουδιστής"}
+role_map = {"Composers": "Composer", "Lyricists": "Lyricist", "Singers": "Singer"}
 if role_selection != "People":
     counts = df[role_map[role_selection]].value_counts().head(20)
 else:
-    df_melted = pd.melt(df, value_vars=['Συνθέτης', 'Στιχουργός', 'Τραγουδιστής'])
+    df_melted = pd.melt(df, value_vars=['Composer', 'Lyricist', 'Singer'])
     counts = df_melted['value'].value_counts().head(20)
 fig_top = px.bar(counts, orientation='h', title=f"Top 20 {role_selection}", labels={"index": role_selection, "value": "Number of Songs"}, color_discrete_sequence=['orange'])
 st.plotly_chart(fig_top)
@@ -79,11 +79,11 @@ st.plotly_chart(fig_top)
 
 # Network Graph (Bottom)
 st.title("Collaboration Network")
-df_filtered = df[(df['Χρόνος'] >= date_range[0]) & (df['Χρόνος'] <= date_range[1])]
+df_filtered = df[(df['Year'] >= date_range[0]) & (df['Year'] <= date_range[1])]
 G = nx.Graph()
 
 for _, row in df_filtered.iterrows():
-    people = set(row[['Συνθέτης', 'Στιχουργός', 'Τραγουδιστής']].dropna())
+    people = set(row[[''Composer', 'Lyricist', 'Singer']].dropna())
     for person in people:
         G.add_node(person)
     for p1 in people:
