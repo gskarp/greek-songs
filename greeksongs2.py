@@ -22,9 +22,7 @@ st.set_page_config(layout="wide", page_title="Greek Songs Dashboard", initial_si
 st.markdown(""" <style> body { background-color: #121212; color: white; } </style> """, unsafe_allow_html=True)
 
 # Load data
-file_path = "τραγούδια-Ελλάδα.csv"
-xls = pd.ExcelFile(file_path)
-df = pd.read_csv(file_path, sep=";")
+df = pd.read_csv("τραγούδια-Ελλάδα.csv", sep=";")
 
 # Convert year column to numeric format
 df['Χρόνος'] = pd.to_numeric(df['Ετος κυκλοφ..1'], errors='coerce')
