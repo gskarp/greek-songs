@@ -23,7 +23,7 @@ st.markdown(""" <style> body { background-color: #121212; color: white; } </styl
 
 # Load data
 csv_url = "https://raw.githubusercontent.com/gskarp/greek-songs/main/τραγούδια-Ελλάδα.csv"
-df = pd.read_csv(csv_url, sep=";")
+df = pd.read_csv(csv_url, sep=";", encoding="utf-8")
 
 # Convert year column to numeric format
 df['Χρόνος'] = pd.to_numeric(df['Ετος κυκλοφ..1'], errors='coerce')
