@@ -1,1 +1,7 @@
-﻿streamlitpandasplotlynetworkxpyvispython-louvain
+﻿streamlit
+pandas
+plotly
+networkx
+pyvis
+python-louvain
+matplotlib
