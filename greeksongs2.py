@@ -22,7 +22,8 @@ st.set_page_config(layout="wide", page_title="Greek Songs Dashboard", initial_si
 st.markdown(""" <style> body { background-color: #121212; color: white; } </style> """, unsafe_allow_html=True)
 
 # Load data
-df = pd.read_csv("τραγούδια-Ελλάδα.csv", sep=";")
+csv_url = "https://raw.githubusercontent.com/gskarp/greek-songs/main/τραγούδια-Ελλάδα.csv"
+df = pd.read_csv(csv_url, sep=";")
 
 # Convert year column to numeric format
 df['Χρόνος'] = pd.to_numeric(df['Ετος κυκλοφ..1'], errors='coerce')
