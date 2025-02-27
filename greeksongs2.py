@@ -30,6 +30,18 @@ df['Year'] = pd.to_numeric(df['Publication_Year'], errors='coerce')
 df = df.dropna(subset=['Year'])
 df['Year'] = df['Year'].astype(int)
 
+# Ensure 'Year' is numeric
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+
+# Fill NaN values with a reasonable default or drop them
+if df['Year'].dropna().empty:
+    min_year, max_year = 1950, 2025  # Default range if no valid years exist
+else:
+    min_year, max_year = int(df['Year'].dropna().min()), int(df['Year'].dropna().max())
+
+# Streamlit slider with valid year range
+date_range = st.sidebar.slider("Select Year Range", min_year, max_year, (min_year, max_year))
+
 # Sidebar Filters
 st.sidebar.title("Network Filters")
 decades = sorted(set(df['Year'] // 10 * 10))
