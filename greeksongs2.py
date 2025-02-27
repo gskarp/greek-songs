@@ -83,7 +83,7 @@ df_filtered = df[(df['Year'] >= date_range[0]) & (df['Year'] <= date_range[1])]
 G = nx.Graph()
 
 for _, row in df_filtered.iterrows():
-    people = set(row[[''Composer', 'Lyricist', 'Singer']].dropna())
+    people = set(row[['Composer', 'Lyricist', 'Singer']].dropna())
     for person in people:
         G.add_node(person)
     for p1 in people:
