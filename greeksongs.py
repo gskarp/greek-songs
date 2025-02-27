@@ -31,7 +31,7 @@ df = df.dropna(subset=['Year'])
 
 # Sidebar Filters
 st.sidebar.header("About")
-st.sidebar.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
+st.sidebar.write("Greek songs since 1950, including any form of the national name 'Greece.' Actually, there are more ways to refer to the country and its people, but this will be a later addition. Data source: a compilation by Athanasios Katsaounis")
 
 st.sidebar.header("Filters")
 year_range = st.sidebar.slider("Select Year Range", int(df["Year"].min()), int(df["Year"].max()), (int(df["Year"].min()), int(df["Year"].max())))
