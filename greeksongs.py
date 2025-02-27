@@ -13,11 +13,11 @@ import matplotlib.colors as mcolors
 # Set page configuration
 st.set_page_config(layout="wide", page_title="Greek Songs Dashboard", initial_sidebar_state="expanded")
 
-# Apply dark mode styling
+# Apply dark mode styling for entire page and sidebar
 st.markdown(
     """
     <style>
-        body { background-color: #121212; color: white; }
+        body, .stApp, .css-1d391kg, .stSidebar { background-color: #121212; color: white; }
         .stTextInput, .stSelectbox, .stSlider, .stButton { color: white; }
     </style>
     """,
@@ -77,9 +77,9 @@ st.pyplot(fig)
 st.subheader("Network Visualization")
 G = nx.Graph()
 for _, row in df_filtered.iterrows():
-    G.add_edge(row["Composer"], row["Lyricist"], weight=1)
-    G.add_edge(row["Lyricist"], row["Singer"], weight=1)
-    G.add_edge(row["Singer"], row["Composer"], weight=1)
+    G.add_edge(str(row["Composer"]), str(row["Lyricist"]), weight=1)
+    G.add_edge(str(row["Lyricist"]), str(row["Singer"]), weight=1)
+    G.add_edge(str(row["Singer"]), str(row["Composer"]), weight=1)
 
 partition = community_louvain.best_partition(G)
 nx.set_node_attributes(G, partition, 'modularity_class')
@@ -87,9 +87,9 @@ nx.set_node_attributes(G, dict(G.degree(weight='weight')), 'weighted_degree')
 
 net = Network(height='500px', width='100%', bgcolor='white', font_color='black')
 for node in G.nodes():
-    net.add_node(node, size=G.nodes[node]['weighted_degree'] * 2, color=mcolors.CSS4_COLORS[list(mcolors.CSS4_COLORS.keys())[partition[node] % len(mcolors.CSS4_COLORS)]])
+    net.add_node(str(node), size=G.nodes[node]['weighted_degree'] * 2, color=mcolors.CSS4_COLORS[list(mcolors.CSS4_COLORS.keys())[partition[node] % len(mcolors.CSS4_COLORS)]])
 for edge in G.edges():
-    net.add_edge(edge[0], edge[1], width=G[edge[0]][edge[1]]['weight'] / 2)
+    net.add_edge(str(edge[0]), str(edge[1]), width=G[edge[0]][edge[1]]['weight'] / 2)
 
 net.save_graph("network.html")
 components.html(open("network.html").read(), height=500)
