@@ -85,7 +85,7 @@ partition = community_louvain.best_partition(G)
 nx.set_node_attributes(G, partition, 'modularity_class')
 nx.set_node_attributes(G, dict(G.degree(weight='weight')), 'weighted_degree')
 
-net = Network(height='500px', width='100%', bgcolor='white', font_color='black')
+net = Network(height='1500px', width='100%', bgcolor='white', font_color='black')
 for node in G.nodes():
     net.add_node(str(node), size=G.nodes[node]['weighted_degree'] * 2, color=mcolors.CSS4_COLORS[list(mcolors.CSS4_COLORS.keys())[partition[node] % len(mcolors.CSS4_COLORS)]])
 for edge in G.edges():
