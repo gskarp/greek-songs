@@ -5,3 +5,4 @@ networkx
 pyvis
 python-louvain
 matplotlib
+wordcloud
