@@ -21,7 +21,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Load data from GitHub
-df = pd.read_csv("https://raw.githubusercontent.com/gskarp/greek-songs/main/greece-songs2.csv", encoding="utf-8")
+df = pd.read_csv("https://raw.githubusercontent.com/gskarp/greek-songs/main/greece-songs3.csv", encoding="utf-8")
 
 # Ensure 'Year' is numeric
 df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
@@ -47,7 +47,7 @@ for _, row in df_filtered.iterrows():
         for j in range(i + 1, len(singers)):
             G.add_edge(singers[i], singers[j])
 
-nt = Network(height="500px", width="100%", bgcolor="#121212", font_color="white")
+nt = Network(height="1000px", width="100%", bgcolor="#121212", font_color="white")
 nt.from_nx(G)
 nt.save_graph("network.html")
 components.html(open("network.html", "r", encoding="utf-8").read(), height=520)
