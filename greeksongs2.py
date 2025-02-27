@@ -47,7 +47,7 @@ for _, row in df_filtered.iterrows():
         for j in range(i + 1, len(singers)):
             G.add_edge(singers[i], singers[j])
 
-nt = Network(height="1000px", width="100%", bgcolor="#121212", font_color="white")
+nt = Network(height="500px", width="100%", bgcolor="#121212", font_color="white")
 nt.from_nx(G)
 nt.save_graph("network.html")
 components.html(open("network.html", "r", encoding="utf-8").read(), height=520)
